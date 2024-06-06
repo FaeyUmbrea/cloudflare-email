@@ -13,7 +13,8 @@ const AuthMiddleware = (request: Request, env: Env) => {
 		});
 	}
 
-	if (token !== env.TOKEN) {
+	let encoder = new TextEncoder();
+	if (token == null || !crypto.subtle.timingSafeEqual(encoder.encode(env.TOKEN), encoder.encode(token))) {
 		return new Response('Unauthorized', { status: 401 });
 	}
 };
